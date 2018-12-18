@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 
 export default class App extends React.Component {
   render() {
@@ -7,7 +7,7 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Text style={styles.text}>КИСУНДРИЛЬ Я ТЕБЯ ЛЮБЛЮ!ВЫХОДИ ЗА МЕНЯ ЗАМУЖ!</Text>
       </View>
-    );
+    )
   }
 }
 
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   text:{
     textAlign:'center'
   }
-});
+})

@@ -8,3 +8,26 @@
 5.expo init test
 6.cd test
 7.npm start
+
+Установка Atom для разработки react-native
+1.https://atom.io/ скачиваем
+Список моих плагинов: 
+nuclide 
+linter-eslint 
+atom-react-native-style 
+atom-ternjs 
+color-picker 
+es6-javascript 
+esformatter 
+file-icons 
+highlight-selected 
+react-native-snippets 
+react-native-snippets-horse 
+react-redux-react-native-snippets 
+toggle-quotes
+
+Сначала ставим плагин в папке проекта: yarn add -D eslint-config-equimper или npm i -D eslint-config-equimper eslint
+
+Для плагина jslinter создаем файл в корне проекта:
+.eslintrc 
+
