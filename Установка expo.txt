@@ -13,7 +13,11 @@
 1.https://atom.io/ скачиваем
 Список моих плагинов: 
 nuclide 
+linter
 linter-eslint 
+linter-csslint
+linter-php
+language-php
 atom-react-native-style 
 atom-ternjs 
 color-picker 
@@ -24,7 +28,10 @@ highlight-selected
 react-native-snippets 
 react-native-snippets-horse 
 react-redux-react-native-snippets 
+react-snippets
 toggle-quotes
+atom-autocomplete-php
+php-debug
 
 Сначала ставим плагин в папке проекта: yarn add -D eslint-config-equimper или npm i -D eslint-config-equimper eslint
 
