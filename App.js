@@ -23,6 +23,7 @@ const Menu = ({router}) => (
     <Header
       backgroundColor='red'
       centerComponent={{ text: 'Меню', style: { color: '#fff' } }}
+      rightComponent={{ icon: 'chevron-right', color: '#fff', style: {backgroundColor: 'red'}, onPress: () => router.pop({}, {type: 'right'})}}
     />
     <View>
       {
@@ -31,57 +32,25 @@ const Menu = ({router}) => (
             key={item.title}
             title={item.title}
             leftIcon={{name: item.icon, style: {color: 'red'}}}
+            onPress={() => router.push.First({type: 'left'})}
           />
-        ))
-      }
+        ))}
     </View>
-    <Button
-      onPress={() => router.pop({type: 'right'})}
-      icon={{name: 'accessibility'}}
-      title='Назад'
-      buttonStyle={{marginTop: 10, marginBottom: 10}}
-    />
   </View>
 )
 
-const First = ({ router }) => (
+const First = ({ router}) => (
   <View style={{ flex: 1 }}>
     <Header
       backgroundColor='red'
-      leftComponent={{ icon: 'menu', color: '#fff' }}
-      centerComponent={{ text: 'Главная страница', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'shopping-cart', color: '#fff' }}
-    />
-    <Button
-      onPress={() => router.push.Menu({type: 'left'})}
-      icon={{name: 'accessibility'}}
-      title='Меню'
-    />
-    <Button
-      onPress={() => router.push.Second({type: 'left'})}
-      icon={{name: 'accessibility'}}
-      title='Каталог'
-    />
-  </View>
-)
-
-const Second = ({ router}) => (
-  <View style={{ flex: 1 }}>
-    <Header
-      backgroundColor='red'
-      leftComponent={{ icon: 'menu', color: '#fff' }}
+      leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
       centerComponent={{ text: 'Каталог', style: { color: '#fff' } }}
-      rightComponent={{ icon: 'shopping-cart', color: '#fff' }}
+      rightComponent={{ icon: 'shopping-cart', color: '#fff', style: {backgroundColor: 'red'} }}
     />
     <ScrollView>
       <Card
         title='1000 Советов'
         image={{uri: 'http://yuniline.ru/img/products/pr_1000-sovetov.png'}}
-        imageStyle={{width: '100%', height: 'auto'}}
-        style={{ flex: 1,
-          width: null,
-          height: null,
-          resizeMode: 'cover'}}
       >
         <Text style={{marginBottom: 10}}>
           2 раза в месяц - 100 руб.
@@ -90,18 +59,13 @@ const Second = ({ router}) => (
           icon={{name: 'keyboard-arrow-right'}}
           backgroundColor='red'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          title='Побробнее'
+          title='Подписаться'
         />
       </Card>
 
       <Card
         title='1000 Советов'
         image={{uri: 'http://yuniline.ru/img/products/pr_1000-sovetov.png'}}
-        imageStyle={{width: '100%', height: 'auto'}}
-        style={{ flex: 1,
-          width: null,
-          height: null,
-          resizeMode: 'cover'}}
       >
         <Text style={{marginBottom: 10}}>
           2 раза в месяц - 100 руб.
@@ -110,21 +74,15 @@ const Second = ({ router}) => (
           icon={{name: 'keyboard-arrow-right'}}
           backgroundColor='red'
           buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-          title='Побробнее'
+          title='Подписаться'
         />
       </Card>
-      <Button
-        onPress={() => router.push.Menu({type: 'left'})}
-        icon={{name: 'accessibility'}}
-        title='Меню'
-        buttonStyle={{marginTop: 10, marginBottom: 10}}
-      />
     </ScrollView>
 
   </View>
 )
 
-const routes = { First, Second, Menu }
+const routes = { First, Menu }
 const App = () => <Router routes={routes} initialRoute="First" />
 
 export default App
