@@ -1,2 +1,2 @@
-export * from './menu'
-export * from './main'
+export * from './Menu'
+export * from './Main'
