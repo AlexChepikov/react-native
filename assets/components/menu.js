@@ -2,21 +2,6 @@ import React from 'react'
 import {View, StyleSheet} from 'react-native'
 import {ListItem, Header} from 'react-native-elements'
 
-const list = [
-  {
-    title: 'Подписка онлайн',
-    icon: 'room'
-  },
-  {
-    title: 'Прошлые номера',
-    icon: 'description'
-  },
-  {
-    title: 'Детские номера',
-    icon: 'description'
-  }
-]
-
 const Menu = ({router}) => {
   const {wrapper} = styles
 
@@ -28,16 +13,29 @@ const Menu = ({router}) => {
         rightComponent={{ icon: 'chevron-right', color: '#fff', style: {backgroundColor: 'red'}, onPress: () => router.pop({}, {type: 'right'})}}
       />
       <View>
-        {
-          list.map((item) => (
-            <ListItem
-              key={item.title}
-              title={item.title}
-              leftIcon={{name: item.icon, style: {color: 'red'}}}
-              onPress={() => router.push.Main({type: 'left'})}
-            />
-          ))
-        }
+        <ListItem
+          title='Подписка онлайн'
+          leftIcon={{name: 'room', style: {color: 'red'}}}
+          onPress={() => router.push.Main({type: 'left'})}
+        />
+
+        <ListItem
+          title='Как оформить подписку'
+          leftIcon={{name: 'help', style: {color: 'red'}}}
+          onPress={() => router.push.Subscription({type: 'left'})}
+        />
+
+        <ListItem
+          title='Оплата и доставка'
+          leftIcon={{name: 'feedback', style: {color: 'red'}}}
+          onPress={() => router.push.Delivery({type: 'left'})}
+        />
+
+        <ListItem
+          title='История издательства'
+          leftIcon={{name: 'history', style: {color: 'red'}}}
+          onPress={() => router.push.History({type: 'left'})}
+        />
       </View>
     </View>
   )

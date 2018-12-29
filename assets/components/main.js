@@ -88,9 +88,9 @@ const Main = ({router}) => {
     <View style={wrapper}>
       <Header
         backgroundColor='red'
-        leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({value: 123}, {type: 'left'}) }}
+        leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
         centerComponent={{ text: 'Подписка онлайн', style: { color: '#fff' }}}
-        rightComponent={{ icon: 'shopping-cart', color: '#fff', style: {backgroundColor: 'red'} }}
+        rightComponent={{ icon: 'shopping-cart', color: '#fff', style: {backgroundColor: 'red'}}}
       />
       <ScrollView>
         <View style={container}>
