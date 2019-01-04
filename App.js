@@ -5,6 +5,7 @@ import {Menu} from './assets/components/Menu'
 import {History} from './assets/components/History'
 import {Subscription} from './assets/components/Subscription'
 import {Delivery} from './assets/components/Delivery'
+import {Representation} from './assets/components/Representation'
 
 export default class App extends Component {
   componentDidMount = async () => {
@@ -12,7 +13,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <Router routes={{Main, Menu, History, Subscription, Delivery}} initialRoute="Main" />
+      <Router routes={{Main, Menu, History, Subscription, Delivery, Representation}} initialRoute="Main" />
     )
   }
 }

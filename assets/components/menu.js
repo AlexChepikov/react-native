@@ -10,7 +10,7 @@ const Menu = ({router}) => {
       <Header
         backgroundColor='red'
         centerComponent={{ text: 'Меню', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'chevron-right', color: '#fff', style: {backgroundColor: 'red'}, onPress: () => router.pop({}, {type: 'right'})}}
+        rightComponent={{ icon: 'chevron-right', color: '#fff', style: {backgroundColor: 'black'}, onPress: () => router.pop({}, {type: 'right'})}}
       />
       <View>
         <ListItem
@@ -35,6 +35,12 @@ const Menu = ({router}) => {
           title='История издательства'
           leftIcon={{name: 'history', style: {color: 'red'}}}
           onPress={() => router.push.History({type: 'left'})}
+        />
+
+        <ListItem
+          title='Наши представительства'
+          leftIcon={{name: 'supervisor-account', style: {color: 'red'}}}
+          onPress={() => router.push.Representation({type: 'left'})}
         />
       </View>
     </View>
