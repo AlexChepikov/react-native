@@ -7,11 +7,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@expo/vector-icons": "^8.0.0",
+    "@expo/vector-icons": "^8.1.0",
     "expo": "^31.0.2",
-    "native-base": "^2.8.2",
     "react": "16.5.0",
-    "react-addons-shallow-compare": "^15.6.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
     "react-native-easy-router": "^2.6.1",
     "react-native-elements": "^0.19.1",
@@ -19,7 +17,7 @@
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",
-    "eslint": "^5.10.0",
+    "eslint": "^5.12.0",
     "eslint-config-equimper": "^2.2.2"
   },
   "private": true

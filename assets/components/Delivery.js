@@ -11,7 +11,7 @@ const Delivery = ({router}) => {
         backgroundColor='red'
         leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
         centerComponent={{ text: 'Оплата и доставка', style: { color: '#fff' }}}
-        rightComponent={{ icon: 'shopping-cart', color: '#fff', style: {backgroundColor: 'red'}}}
+        rightComponent={{ icon: 'shopping-cart', color: '#fff'}}
       />
       <ScrollView>
         <View style={container}>
