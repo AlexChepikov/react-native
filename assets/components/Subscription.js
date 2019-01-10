@@ -1,6 +1,7 @@
 import React from 'react'
 import {View, ScrollView, StyleSheet} from 'react-native'
 import {Header, Text} from 'react-native-elements'
+import {CountBascket} from './CountBascket'
 
 const Subscription = ({router}) => {
   const {wrapper, container, textStyle} = styles
@@ -11,7 +12,7 @@ const Subscription = ({router}) => {
         backgroundColor='red'
         leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
         centerComponent={{ text: 'Как оформить подписку', style: { color: '#fff' }}}
-        rightComponent={{ icon: 'shopping-cart', color: '#fff'}}
+        rightComponent={<CountBascket data={3} />}
       />
       <ScrollView>
         <View style={container}>

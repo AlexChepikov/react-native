@@ -6,7 +6,7 @@ const ImageCard = ({data}) => {
   const { container, sub, h1, cover } = styles
   const {image, name} = data
   return (
-    <View style={container}>
+    <View style={container} >
       <View style={sub}>
         <Image style={cover} source={{ uri: image}} />
       </View>
@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
   },
   h1: {
     paddingTop: 10,
-    fontSize: 18,
     alignSelf: 'center',
     textAlign: 'center'
   },

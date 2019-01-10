@@ -1,6 +1,7 @@
 import React from 'react'
 import {View, ScrollView, StyleSheet, Linking} from 'react-native'
 import {Header, Text} from 'react-native-elements'
+import {CountBascket} from './CountBascket'
 
 const Delivery = ({router}) => {
   const {wrapper, container, textStyle, textAlign} = styles
@@ -11,7 +12,7 @@ const Delivery = ({router}) => {
         backgroundColor='red'
         leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
         centerComponent={{ text: 'Оплата и доставка', style: { color: '#fff' }}}
-        rightComponent={{ icon: 'shopping-cart', color: '#fff'}}
+        rightComponent={<CountBascket data={3} />}
       />
       <ScrollView>
         <View style={container}>
@@ -21,7 +22,7 @@ const Delivery = ({router}) => {
           <Text>{'\t'}{'\t'}«До а/я» – доставка изданий до абонентского или абонементного почтового ящика Подписчика, устанавливаемого в отделениях почтовой связи филиалов ФУП «Почта России» для получения почтовых отправлений.</Text>
           <Text h4 style={textAlign}>Доставка подписной продукции в другие страны</Text>
           <Text>{'\t'}{'\t'}Подписку на наши издания теперь можно оформить не только на территории РФ,а так же в других странах мира.</Text>
-          <Text>{'\t'}{'\t'}Для России: <Text style={textStyle} onPress={() => Linking.openURL('http://yuniline.ru').catch(err => console.error('No links', err))}>http://yuniline.ru</Text></Text>
+          <Text>{'\t'}{'\t'}Для России: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru').catch(err => console.error('No links', err))}>https://yuniline.ru</Text></Text>
           <Text>{'\t'}{'\t'}Для стран Европы, Америки и всего мира: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.com').catch(err => console.error('No links', err))}>https://yuniline.com</Text></Text>
           <Text>{'\t'}{'\t'}Для Беларуси: <Text style={textStyle} onPress={() => Linking.openURL('http://yamedia.by').catch(err => console.error('No links', err))}>http://yamedia.by</Text></Text>
           <Text>{'\t'}{'\t'}Для Казахстана: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.kz').catch(err => console.error('No links', err))}>https://yuniline.kz</Text></Text>
