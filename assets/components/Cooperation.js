@@ -17,7 +17,7 @@ const FirstRoute = () => {
         <Text>{'\t'}{'\t'}Часы работы: с 9:00 до 18:00</Text>
         <Text>{'\t'}{'\t'}Тел: 8 (4812) 358-777</Text>
         <Text>{'\t'}{'\t'}E-mail: total@yuniline.ru</Text>
-        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru').catch(err => console.error('No links', err))}>https://yuniline.ru</Text></Text>
+        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru')}>https://yuniline.ru</Text></Text>
       </ScrollView>
     </View>
   )
@@ -41,7 +41,7 @@ const SecondRoute = () => {
         <Text>{'\t'}{'\t'}Часы работы: с 9:00 до 18:00</Text>
         <Text>{'\t'}{'\t'}Тел: 8 (4812) 358-777</Text>
         <Text>{'\t'}{'\t'}E-mail: total@yuniline.ru</Text>
-        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru').catch(err => console.error('No links', err))}>https://yuniline.ru</Text></Text>
+        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru')}>https://yuniline.ru</Text></Text>
       </ScrollView>
     </View>
   )
@@ -74,7 +74,7 @@ const ThirdRoute = () => {
         <Text>{'\t'}{'\t'}Часы работы: с 9:00 до 18:00</Text>
         <Text>{'\t'}{'\t'}Тел: 8 (4812) 358-777</Text>
         <Text>{'\t'}{'\t'}E-mail: total@yuniline.ru</Text>
-        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru').catch(err => console.error('No links', err))}>https://yuniline.ru</Text></Text>
+        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru')}>https://yuniline.ru</Text></Text>
       </ScrollView>
     </View>
   )
@@ -133,7 +133,7 @@ class Cooperation extends React.Component {
           backgroundColor='red'
           leftComponent={{ icon: 'menu', color: '#fff', onPress: () => this.props.router.push.Menu({}, {type: 'left'}) }}
           centerComponent={{ text: 'Сотрудничество', style: { color: '#fff' }}}
-          rightComponent={<CountBascket data={3} />}
+          rightComponent={<CountBascket />}
         />
         <TabView
           navigationState={this.state}

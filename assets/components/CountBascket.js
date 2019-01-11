@@ -2,13 +2,13 @@ import React from 'react'
 import {View, StyleSheet} from 'react-native'
 import {Icon, Badge} from 'react-native-elements'
 
-const CountBascket = ({data}) => {
+const CountBascket = () => {
   const { container, textStyle, backgroundStyle } = styles
 
   return (
     <View style={container}>
       <Icon name='shopping-cart' color='#fff' />
-      <Badge value={data} textStyle={textStyle} containerStyle={backgroundStyle} />
+      <Badge value={3} textStyle={textStyle} containerStyle={backgroundStyle} />
     </View>
   )
 }

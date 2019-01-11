@@ -12,7 +12,7 @@ const Delivery = ({router}) => {
         backgroundColor='red'
         leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
         centerComponent={{ text: 'Оплата и доставка', style: { color: '#fff' }}}
-        rightComponent={<CountBascket data={3} />}
+        rightComponent={<CountBascket />}
       />
       <ScrollView>
         <View style={container}>
@@ -22,10 +22,10 @@ const Delivery = ({router}) => {
           <Text>{'\t'}{'\t'}«До а/я» – доставка изданий до абонентского или абонементного почтового ящика Подписчика, устанавливаемого в отделениях почтовой связи филиалов ФУП «Почта России» для получения почтовых отправлений.</Text>
           <Text h4 style={textAlign}>Доставка подписной продукции в другие страны</Text>
           <Text>{'\t'}{'\t'}Подписку на наши издания теперь можно оформить не только на территории РФ,а так же в других странах мира.</Text>
-          <Text>{'\t'}{'\t'}Для России: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru').catch(err => console.error('No links', err))}>https://yuniline.ru</Text></Text>
-          <Text>{'\t'}{'\t'}Для стран Европы, Америки и всего мира: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.com').catch(err => console.error('No links', err))}>https://yuniline.com</Text></Text>
-          <Text>{'\t'}{'\t'}Для Беларуси: <Text style={textStyle} onPress={() => Linking.openURL('http://yamedia.by').catch(err => console.error('No links', err))}>http://yamedia.by</Text></Text>
-          <Text>{'\t'}{'\t'}Для Казахстана: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.kz').catch(err => console.error('No links', err))}>https://yuniline.kz</Text></Text>
+          <Text>{'\t'}{'\t'}Для России: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru')}>https://yuniline.ru</Text></Text>
+          <Text>{'\t'}{'\t'}Для стран Европы, Америки и всего мира: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.com')}>https://yuniline.com</Text></Text>
+          <Text>{'\t'}{'\t'}Для Беларуси: <Text style={textStyle} onPress={() => Linking.openURL('http://yamedia.by')}>http://yamedia.by</Text></Text>
+          <Text>{'\t'}{'\t'}Для Казахстана: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.kz')}>https://yuniline.kz</Text></Text>
           <Text h4 style={textAlign}>Доставка ФГУП «Почта России»</Text>
           <Text>{'\t'}{'\t'}Для жителей РФ доставка товаров осуществляется Почтой России. Заказ после оформления и оплаты отправляется заказной бандеролью на указанный при регистрации почтовый адрес.</Text>
           <Text>{'\t'}{'\t'}Внимание! Пожалуйста, вовремя забирайте на почте доставленные заказы. Бандероль, не востребованная Получателем в течение 1 месяца, возвращается обратно отправителю. Стоимость почтовой доставки по России зависит от веса заказа.</Text>

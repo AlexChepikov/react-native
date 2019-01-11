@@ -19,7 +19,7 @@ const FirstRoute = () => {
         <Text>{'\t'}{'\t'}Часы работы: с 9:00 до 18:00</Text>
         <Text>{'\t'}{'\t'}Тел: 8 (4812) 358-777</Text>
         <Text>{'\t'}{'\t'}E-mail: total@yuniline.ru</Text>
-        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru').catch(err => console.error('No links', err))}>https://yuniline.ru</Text></Text>
+        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru')}>https://yuniline.ru</Text></Text>
         <Text style={textWeight}>{'\t'}{'\t'}Адрес для корреспонденции:</Text>
         <Text>{'\t'}{'\t'}Адрес: 214020, Россия, г. Смоленск, a/я 20</Text>
         <Text>{'\t'}{'\t'}E-mail: total@yuniline.ru</Text>
@@ -44,7 +44,7 @@ const SecondRoute = () => {
         <Text>{'\t'}{'\t'}Адрес: 220092, Республика Беларусь, г. Минск, ул. Б. Берута, 3Б, пом. 107 «А»</Text>
         <Text>{'\t'}{'\t'}Тел: +3 7517 322 02 86</Text>
         <Text>{'\t'}{'\t'}E-mail: direktor@yuniline.by</Text>
-        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('http://yuniline.by').catch(err => console.error('No links', err))}>http://yuniline.by</Text></Text>
+        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('http://yuniline.by')}>http://yuniline.by</Text></Text>
         <Text style={textWeight}>{'\t'}{'\t'}Для рекламодателей:</Text>
         <Text>{'\t'}{'\t'}Тел: +375 17 322 02 86</Text>
         <Text>{'\t'}{'\t'}E-mail: reklama@yuniline.ru</Text>
@@ -66,7 +66,7 @@ const ThirdRoute = () => {
         <Text>{'\t'}{'\t'}Адрес: 050040,Республика Казахстан, Бостандыкский район г. Алматы, ул. Сатпаева, д. 30/8, офис 137</Text>
         <Text>{'\t'}{'\t'}Тел: +7(727) 330-94-49; +7(727) 398-93-62</Text>
         <Text>{'\t'}{'\t'}E-mail: total@yuniline.kz</Text>
-        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.kz').catch(err => console.error('No links', err))}>https://yuniline.kz</Text></Text>
+        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.kz')}>https://yuniline.kz</Text></Text>
         <Text style={textWeight}>{'\t'}{'\t'}Для рекламодателей:</Text>
         <Text>{'\t'}{'\t'}Тел: +7(727) 330-94-49</Text>
         <Text>{'\t'}{'\t'}E-mail: total@yuniline.kz</Text>
@@ -92,7 +92,7 @@ const FoorRoute = () => {
         <Text>{'\t'}{'\t'}Адрес: 51005, Эстония, Vikerkaare tee 59-1</Text>
         <Text>{'\t'}{'\t'}Тел: +3 725 6867747</Text>
         <Text>{'\t'}{'\t'}E-mail: v.radionenkov@yuniline.com</Text>
-        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.com').catch(err => console.error('No links', err))}>https://yuniline.com</Text></Text>
+        <Text>{'\t'}{'\t'}Сайт: <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.com')}>https://yuniline.com</Text></Text>
         <Text style={textWeight}>{'\t'}{'\t'}Для рекламодателей:</Text>
         <Text>{'\t'}{'\t'}Тел: +3 725 6867747</Text>
         <Text>{'\t'}{'\t'}E-mail: v.radionenkov@yuniline.com</Text>
@@ -156,7 +156,7 @@ class Representation extends React.Component {
           backgroundColor='red'
           leftComponent={{ icon: 'menu', color: '#fff', onPress: () => this.props.router.push.Menu({}, {type: 'left'}) }}
           centerComponent={{ text: 'Наши представительсва', style: { color: '#fff' }}}
-          rightComponent={<CountBascket data={3} />}
+          rightComponent={<CountBascket />}
         />
         <TabView
           navigationState={this.state}

@@ -12,7 +12,7 @@ const Subscription = ({router}) => {
         backgroundColor='red'
         leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
         centerComponent={{ text: 'Как оформить подписку', style: { color: '#fff' }}}
-        rightComponent={<CountBascket data={3} />}
+        rightComponent={<CountBascket />}
       />
       <ScrollView>
         <View style={container}>

@@ -58,10 +58,10 @@ const Menu = ({router}) => {
         <View style={socialStyleWrapper}>
           <Text style={textAlign}>Мы в социальных сетях:</Text>
           <View style={socialStyle}>
-            <FontAwesome name="vk" size={32} style={{ color: 'red' }} onPress={() => Linking.openURL('https://vk.com/yunilineofficial').catch(err => console.error('No links', err))} />
-            <FontAwesome name="instagram" size={32} style={{ color: 'red' }} onPress={() => Linking.openURL('https://www.instagram.com/_yuniline_/').catch(err => console.error('No links', err))} />
-            <FontAwesome name="odnoklassniki" size={32} style={{ color: 'red' }} onPress={() => Linking.openURL('https://ok.ru/yuniline').catch(err => console.error('No links', err))} />
-            <FontAwesome name="facebook" size={32} style={{ color: 'red' }} onPress={() => Linking.openURL('https://www.facebook.com/yunilineID/').catch(err => console.error('No links', err))} />
+            <FontAwesome name="vk" size={32} style={{ color: 'red' }} onPress={() => Linking.openURL('https://vk.com/yunilineofficial')} />
+            <FontAwesome name="instagram" size={32} style={{ color: 'red' }} onPress={() => Linking.openURL('https://www.instagram.com/_yuniline_/')} />
+            <FontAwesome name="odnoklassniki" size={32} style={{ color: 'red' }} onPress={() => Linking.openURL('https://ok.ru/yuniline')} />
+            <FontAwesome name="facebook" size={32} style={{ color: 'red' }} onPress={() => Linking.openURL('https://www.facebook.com/yunilineID/')} />
           </View>
         </View>
       </View>
