@@ -3,6 +3,7 @@ import {View, ScrollView, StyleSheet, Image, Picker, TextInput, Alert, KeyboardA
 import {Header, Text, Button, ButtonGroup} from 'react-native-elements'
 import {FontAwesome} from '@expo/vector-icons'
 import {CountBascket} from './CountBascket'
+import {setItem, getItem} from '../storage'
 import {w} from './Constants'
 
 const counts = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -371,82 +372,79 @@ class Product extends React.Component {
     box: ''
   }
 
-  _setData = async () => {
-    try {
-      const value = JSON.parse(await AsyncStorage.getItem('bascket'))
-      if (value !== null) {
-        value.push(this.state)
-        await AsyncStorage.setItem('bascket', JSON.stringify(value))
-      } else {
-        await AsyncStorage.setItem('bascket', JSON.stringify([this.state]))
-      }
-    } catch (error) {
-      console.error(`AsyncStorage#setItem error: ${error.message}`)
-    }
-  }
-
-  _getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('bascket')
-      if (value !== null) {
-        console.log(JSON.parse(value))
-      } else {
-        console.log(value)
-      }
-    } catch (error) {
-      console.error(`AsyncStorage#setItem error: ${error.message}`)
-    }
-  }
-
-  _removeData = async () => {
-    try {
-      await AsyncStorage.removeItem('bascket')
-    } catch (error) {
-      console.error(`AsyncStorage#setItem error: ${error.message}`)
-    }
-  }
+  // _setData = () => {
+  //   try {
+  //     const value = JSON.parse(AsyncStorage.getItem('bascket'))
+  //     if (value !== null) {
+  //       value.push(this.state)
+  //       AsyncStorage.setItem('bascket', JSON.stringify(value))
+  //     } else {
+  //       AsyncStorage.setItem('bascket', JSON.stringify([this.state]))
+  //     }
+  //   } catch (error) {
+  //     console.error(`AsyncStorage#setItem error: ${error.message}`)
+  //   }
+  // }
+  //
+  // _getData = () => {
+  //   try {
+  //     return AsyncStorage.getItem('bascket')
+  //   } catch (error) {
+  //     console.error(`AsyncStorage#setItem error: ${error.message}`)
+  //   }
+  // }
+  //
+  // _removeData = () => {
+  //   try {
+  //     AsyncStorage.removeItem('bascket')
+  //   } catch (error) {
+  //     console.error(`AsyncStorage#setItem error: ${error.message}`)
+  //   }
+  // }
 
   _onPressButton = () => {
-    if (this.state.region === '') {
-      Alert.alert('Ошибка!', 'Выберите пожалуйста свой регион')
-    } else if (this.state.subscribe1 === null && this.state.subscribe2 === null && this.state.subscribe3 === null && this.state.subscribe4 === null && this.state.subscribe5 === null && this.state.subscribe6 === null) {
-      Alert.alert('Ошибка!', 'Выберите хотя бы 1 месяц подписки')
-    } else if (this.state.deliveryType === 0) {
-      if (this.state.address === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста свой адрес')
-      } else if (this.state.fio === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
-      } else {
-        this._setData()
-        this.props.router.pop({type: 'right'})
-        Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
-        console.log(this._getData())
-      }
-    } else if (this.state.deliveryType === 1) {
-      if (this.state.index === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста индекс')
-      } else if (this.state.fio === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
-      } else {
-        this._setData()
-        this.props.router.pop({type: 'right'})
-        Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
-        console.log(this._getData())
-      }
-    } else if (this.state.deliveryType === 2) {
-      if (this.state.index === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста индекс')
-      } else if (this.state.box === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста абонентский ящик')
-      } else if (this.state.fio === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
-      } else {
-        this._setData()
-        this.props.router.pop({type: 'right'})
-        Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
-        console.log(this._getData())
-      }
-    }
+    setItem('bascket', [this.state])
+    console.log(getItem('bascket'))
+    // if (this.state.region === '') {
+    //   Alert.alert('Ошибка!', 'Выберите пожалуйста свой регион')
+    // } else if (this.state.subscribe1 === null && this.state.subscribe2 === null && this.state.subscribe3 === null && this.state.subscribe4 === null && this.state.subscribe5 === null && this.state.subscribe6 === null) {
+    //   Alert.alert('Ошибка!', 'Выберите хотя бы 1 месяц подписки')
+    // } else if (this.state.deliveryType === 0) {
+    //   if (this.state.address === '') {
+    //     Alert.alert('Ошибка!', 'Заполните пожалуйста свой адрес')
+    //   } else if (this.state.fio === '') {
+    //     Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
+    //   } else {
+    //     this._setData()
+    //     this.props.router.pop({type: 'right'})
+    //     Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
+    //     console.log(this._getData())
+    //   }
+    // } else if (this.state.deliveryType === 1) {
+    //   if (this.state.index === '') {
+    //     Alert.alert('Ошибка!', 'Заполните пожалуйста индекс')
+    //   } else if (this.state.fio === '') {
+    //     Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
+    //   } else {
+    //     this._setData()
+    //     this.props.router.pop({type: 'right'})
+    //     Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
+    //     console.log(this._getData())
+    //   }
+    // } else if (this.state.deliveryType === 2) {
+    //   if (this.state.index === '') {
+    //     Alert.alert('Ошибка!', 'Заполните пожалуйста индекс')
+    //   } else if (this.state.box === '') {
+    //     Alert.alert('Ошибка!', 'Заполните пожалуйста абонентский ящик')
+    //   } else if (this.state.fio === '') {
+    //     Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
+    //   } else {
+    //     this._setData()
+    //     this.props.router.pop({type: 'right'})
+    //     Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
+    //     console.log(this._getData())
+    //   }
+    // }
   }
 
   render() {
@@ -481,7 +479,6 @@ class Product extends React.Component {
                       const region = regions.find(value => value.label === item)
                       this.setState({ region: item, price: region.value })
                     }}
-                    style={InputStyle}
                   >
                     {regions.map((i) => (
                       <Picker.Item key={i} label={i.label} value={i.label} />
@@ -582,7 +579,6 @@ class Product extends React.Component {
                         this.setState({ delivery: item, deliveryType: 2, address: ''})
                       }
                     }}
-                    style={InputStyle}
                   >
                     {delivery.map((i) => (
                       <Picker.Item key={i} label={i} value={i} />
@@ -636,7 +632,6 @@ class Product extends React.Component {
                     selectedValue={this.state.count}
                     onValueChange={item => this.setState({ count: item })
                     }
-                    style={InputStyle}
                   >
                     {counts.map((i) => (
                       <Picker.Item key={i} label={i} value={i} />
@@ -708,16 +703,18 @@ const styles = StyleSheet.create({
   },
   buttonStyleBackConteiner: {
     width: '100%',
-    marginLeft: 0
+    marginLeft: 0,
+    height: 50
   },
   InputStyle: {
     borderWidth: 1,
     borderColor: '#DCDCDC',
-    height: 40,
+    height: 50,
     width: '100%',
     paddingLeft: 10
   },
   pikerStyle: {
+    flex: 1,
     borderWidth: 1,
     borderColor: '#DCDCDC'
   }
