@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet, Image, Picker, TextInput, Alert} from 'react-native'
+import {View, ScrollView, StyleSheet, Image, Picker, TextInput, Alert, KeyboardAvoidingView, Platform, AsyncStorage} from 'react-native'
 import {Header, Text, Button, ButtonGroup} from 'react-native-elements'
 import {FontAwesome} from '@expo/vector-icons'
 import {CountBascket} from './CountBascket'
@@ -360,29 +360,99 @@ class Product extends React.Component {
     fio: '',
     count: '1',
     delivery: 'Домой (до почтового ящика)',
-    subscribe: 0
+    deliveryType: 0,
+    subscribe1: null,
+    subscribe2: null,
+    subscribe3: null,
+    subscribe4: null,
+    subscribe5: null,
+    subscribe6: null,
+    index: '',
+    box: ''
   }
 
-  _onPressButton = () => {
-    console.log(this.state)
-    if (this.state.region === '') {
-      Alert.alert('Ошибка!', 'Выберите пожалуйста свой регион')
-    } else if (this.state.address === '') {
-      Alert.alert('Ошибка!', 'Заполните пожалуйста свой адрес')
-    } else if (this.state.fio === '') {
-      Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
-    } else {
-      Alert.alert('Вы успешно добавили товар в корзину!')
+  _setData = async () => {
+    try {
+      const value = JSON.parse(await AsyncStorage.getItem('bascket'))
+      if (value !== null) {
+        value.push(this.state)
+        await AsyncStorage.setItem('bascket', JSON.stringify(value))
+      } else {
+        await AsyncStorage.setItem('bascket', JSON.stringify([this.state]))
+      }
+    } catch (error) {
+      console.error(`AsyncStorage#setItem error: ${error.message}`)
     }
   }
 
-  _updateIndex = (selectedIndex) => {
-    this.setState({subscribe: selectedIndex})
+  _getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('bascket')
+      if (value !== null) {
+        console.log(JSON.parse(value))
+      } else {
+        console.log(value)
+      }
+    } catch (error) {
+      console.error(`AsyncStorage#setItem error: ${error.message}`)
+    }
+  }
+
+  _removeData = async () => {
+    try {
+      await AsyncStorage.removeItem('bascket')
+    } catch (error) {
+      console.error(`AsyncStorage#setItem error: ${error.message}`)
+    }
+  }
+
+  _onPressButton = () => {
+    if (this.state.region === '') {
+      Alert.alert('Ошибка!', 'Выберите пожалуйста свой регион')
+    } else if (this.state.subscribe1 === null && this.state.subscribe2 === null && this.state.subscribe3 === null && this.state.subscribe4 === null && this.state.subscribe5 === null && this.state.subscribe6 === null) {
+      Alert.alert('Ошибка!', 'Выберите хотя бы 1 месяц подписки')
+    } else if (this.state.deliveryType === 0) {
+      if (this.state.address === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста свой адрес')
+      } else if (this.state.fio === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
+      } else {
+        this._setData()
+        this.props.router.pop({type: 'right'})
+        Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
+        console.log(this._getData())
+      }
+    } else if (this.state.deliveryType === 1) {
+      if (this.state.index === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста индекс')
+      } else if (this.state.fio === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
+      } else {
+        this._setData()
+        this.props.router.pop({type: 'right'})
+        Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
+        console.log(this._getData())
+      }
+    } else if (this.state.deliveryType === 2) {
+      if (this.state.index === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста индекс')
+      } else if (this.state.box === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста абонентский ящик')
+      } else if (this.state.fio === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
+      } else {
+        this._setData()
+        this.props.router.pop({type: 'right'})
+        Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
+        console.log(this._getData())
+      }
+    }
   }
 
   render() {
     const {name, image} = this.props.data
-    const {wrapper, container, cover, textHeader, blockHeader, coverBlock, fontBold, fontBoldColor, block, blockTwo, blockTextHeader, blockTextHeaderTwo, fontSizeText, buttonStyleBack, buttonStyleBackConteiner} = styles
+    const {wrapper, container, cover, blockHeader, coverBlock, fontBold, fontBoldColor, block, blockTextHeader, blockTextHeaderTwo, fontSizeText, buttonStyleBack, buttonStyleBackConteiner, InputStyle, pikerStyle} = styles
+
     return (
       <View style={wrapper}>
         <Header
@@ -392,95 +462,198 @@ class Product extends React.Component {
           rightComponent={<CountBascket />}
         />
         <ScrollView>
-          <View style={container}>
-            <Text style={textHeader}>(В цену подписки включена стоимость доставки. Минимальный период подписки – 1 месяц.)</Text>
-            <View style={blockHeader}>
-              <Image style={cover} source={{ uri: image}} />
-              <View style={coverBlock}>
-                <Text style={fontBold}>Характеристики:</Text>
-                <Text>Выпусков в месяц: 2</Text>
-                <Text>Вид: журнал</Text>
-                <Text>Категория: 0+</Text>
-                <Text>Формат: А4</Text>
-                <Text>Количество страниц: 32{'\n'}</Text>
-                <Text style={fontBold}>Главный редактор: Веремьев Юрий Николаевич{'\n'}</Text>
-                <Text style={fontBoldColor}>Цена: {this.state.price * this.state.count} <FontAwesome name="rub" size={16} /></Text>
+          <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
+            <View style={container}>
+              <View style={blockHeader}>
+                <Image style={cover} source={{ uri: image}} />
+                <View style={coverBlock}>
+                  <Text style={fontBold}>(В цену подписки включена стоимость доставки. Минимальный период подписки – 1 месяц.)</Text>
+                  <Text style={fontBoldColor}>Цена: {this.state.price * this.state.count} <FontAwesome name="rub" size={16} /></Text>
+                </View>
               </View>
-            </View>
 
-            <View style={block}>
-              <Text style={blockTextHeader}>От Вашего региона зависит цена издания!</Text>
-              <Picker
-                selectedValue={this.state.region}
-                onValueChange={item => {
-                  const region = regions.find(value => value.label === item)
-                  this.setState({ region: item, price: region.value })
-                }}
-              >
-                {regions.map((i) => (
-                  <Picker.Item key={i} label={i.label} value={i.label} />
-                ))}
-              </Picker>
-            </View>
-            <View style={block}>
-              <Text style={blockTextHeaderTwo}>Выберите месяцы подписки:</Text>
-              <ButtonGroup
-                buttons={['2019 Январь', '2019 Февраль', '2019 Март', '2019 Апрель', '2019 Июнь', '2019 Июль']}
-                selectedIndex={this.state.subscribe}
-                onPress={this._updateIndex}
-                selectedTextStyle={{color: 'red'}}
-                textStyle={{textAlign: 'center'}}
-              />
-            </View>
-            <View style={block}>
-              <Text style={blockTextHeaderTwo}>Тип доставки:</Text>
-              <Picker
-                selectedValue={this.state.delivery}
-                onValueChange={item => this.setState({ delivery: item })
+              <View style={block}>
+                <Text style={blockTextHeader}>От Вашего региона зависит цена издания!</Text>
+                <View style={pikerStyle}>
+                  <Picker
+                    selectedValue={this.state.region}
+                    onValueChange={item => {
+                      const region = regions.find(value => value.label === item)
+                      this.setState({ region: item, price: region.value })
+                    }}
+                    style={InputStyle}
+                  >
+                    {regions.map((i) => (
+                      <Picker.Item key={i} label={i.label} value={i.label} />
+                    ))}
+                  </Picker>
+                </View>
+                <Text style={blockTextHeaderTwo}>Выберите месяцы подписки:</Text>
+                <View>
+                  <ButtonGroup
+                    buttons={['2019 Январь']}
+                    selectedIndex={this.state.subscribe1}
+                    onPress={subscribe1 => {
+                      if (this.state.subscribe1 == null) {
+                        this.setState({subscribe1})
+                      } else {
+                        this.setState({subscribe1: null})
+                      }
+                    }}
+                    containerStyle={buttonStyleBackConteiner}
+                    selectedTextStyle={{color: 'red'}}
+                  />
+                  <ButtonGroup
+                    buttons={['2019 Февраль']}
+                    selectedIndex={this.state.subscribe2}
+                    onPress={subscribe2 => {
+                      if (this.state.subscribe2 == null) {
+                        this.setState({subscribe2})
+                      } else {
+                        this.setState({subscribe2: null})
+                      }
+                    }}
+                    containerStyle={buttonStyleBackConteiner}
+                    selectedTextStyle={{color: 'red'}}
+                  />
+                  <ButtonGroup
+                    buttons={['2019 Март']}
+                    selectedIndex={this.state.subscribe3}
+                    onPress={subscribe3 => {
+                      if (this.state.subscribe3 == null) {
+                        this.setState({subscribe3})
+                      } else {
+                        this.setState({subscribe3: null})
+                      }
+                    }}
+                    containerStyle={buttonStyleBackConteiner}
+                    selectedTextStyle={{color: 'red'}}
+                  />
+                  <ButtonGroup
+                    buttons={['2019 Апрель']}
+                    selectedIndex={this.state.subscribe4}
+                    onPress={subscribe4 => {
+                      if (this.state.subscribe4 == null) {
+                        this.setState({subscribe4})
+                      } else {
+                        this.setState({subscribe4: null})
+                      }
+                    }}
+                    containerStyle={buttonStyleBackConteiner}
+                    selectedTextStyle={{color: 'red'}}
+                  />
+                  <ButtonGroup
+                    buttons={['2019 Май']}
+                    selectedIndex={this.state.subscribe5}
+                    onPress={subscribe5 => {
+                      if (this.state.subscribe5 == null) {
+                        this.setState({subscribe5})
+                      } else {
+                        this.setState({subscribe5: null})
+                      }
+                    }}
+                    containerStyle={buttonStyleBackConteiner}
+                    selectedTextStyle={{color: 'red'}}
+                  />
+                  <ButtonGroup
+                    buttons={['2019 Июнь']}
+                    selectedIndex={this.state.subscribe6}
+                    onPress={subscribe6 => {
+                      if (this.state.subscribe6 == null) {
+                        this.setState({subscribe6})
+                      } else {
+                        this.setState({subscribe6: null})
+                      }
+                    }}
+                    containerStyle={buttonStyleBackConteiner}
+                    selectedTextStyle={{color: 'red'}}
+                  />
+                </View>
+                <Text style={blockTextHeaderTwo}>Тип доставки:</Text>
+                <View style={pikerStyle}>
+                  <Picker
+                    selectedValue={this.state.delivery}
+                    onValueChange={item => {
+                      if (item === 'Домой (до почтового ящика)') {
+                        this.setState({ delivery: item, deliveryType: 0, box: '', index: ''})
+                      } else if (item === 'До востребования') {
+                        this.setState({ delivery: item, deliveryType: 1, address: '', box: ''})
+                      } else {
+                        this.setState({ delivery: item, deliveryType: 2, address: ''})
+                      }
+                    }}
+                    style={InputStyle}
+                  >
+                    {delivery.map((i) => (
+                      <Picker.Item key={i} label={i} value={i} />
+                    ))}
+                  </Picker>
+                </View>
+
+                {
+                  (this.state.deliveryType === 0) ?
+                    (<View><Text style={blockTextHeaderTwo}>Адрес(<Text style={fontSizeText}>Например: 100000, г. Москва, ул. Ленина, д. 100, кв. 1</Text>):</Text>
+                      <TextInput
+                        style={InputStyle}
+                        onChangeText={(text) => this.setState({address: text})}
+                        value={this.state.address}
+                      /></View>) : null
                 }
-              >
-                {delivery.map((i) => (
-                  <Picker.Item key={i} label={i} value={i} />
-                ))}
-              </Picker>
-            </View>
-            <View style={block}>
-              <Text style={blockTextHeaderTwo}>Адрес(<Text style={fontSizeText}>Например: 100000, г. Москва, ул. Ленина, д. 100, кв. 1</Text>):</Text>
-              <TextInput
-                style={blockTextHeaderTwo}
-                onChangeText={(text) => this.setState({address: text})}
-                value={this.state.address}
-              />
-            </View>
-            <View style={block}>
-              <Text style={blockTextHeaderTwo}>ФИО получателя:</Text>
-              <TextInput
-                style={blockTextHeaderTwo}
-                onChangeText={(text) => this.setState({fio: text})}
-                value={this.state.fio}
-              />
-            </View>
-            <View style={blockTwo}>
-              <Text style={blockTextHeaderTwo}>Количество комплектов:</Text>
-              <Picker
-                selectedValue={this.state.count}
-                onValueChange={item => this.setState({ count: item })
+                {
+                  (this.state.deliveryType === 1) ?
+                    (<View><Text style={blockTextHeaderTwo}>Индекс:</Text>
+                      <TextInput
+                        style={InputStyle}
+                        onChangeText={(text) => this.setState({index: text})}
+                        value={this.state.index}
+                      /></View>) : null
                 }
-              >
-                {counts.map((i) => (
-                  <Picker.Item key={i} label={i} value={i} />
-                ))}
-              </Picker>
+                {
+                  (this.state.deliveryType === 2) ?
+                    (<View><Text style={blockTextHeaderTwo}>Индекс:</Text>
+                      <TextInput
+                        style={InputStyle}
+                        onChangeText={(text) => this.setState({index: text})}
+                        value={this.state.index}
+                      /><Text style={blockTextHeaderTwo}>Абонентский ящик:</Text>
+                      <TextInput
+                        style={InputStyle}
+                        onChangeText={(text) => this.setState({box: text})}
+                        value={this.state.box}
+                      /></View>) : null
+                }
+
+                <Text style={blockTextHeaderTwo}>ФИО получателя:</Text>
+                <TextInput
+                  style={InputStyle}
+                  onChangeText={(text) => this.setState({fio: text})}
+                  value={this.state.fio}
+                />
+
+                <Text style={blockTextHeaderTwo}>Количество комплектов:</Text>
+                <View style={pikerStyle}>
+                  <Picker
+                    selectedValue={this.state.count}
+                    onValueChange={item => this.setState({ count: item })
+                    }
+                    style={InputStyle}
+                  >
+                    {counts.map((i) => (
+                      <Picker.Item key={i} label={i} value={i} />
+                    ))}
+                  </Picker>
+                </View>
+              </View>
+              <Button
+                icon={{name: 'add-shopping-cart'}}
+                title='В корзину'
+                color='white'
+                buttonStyle={buttonStyleBack}
+                containerViewStyle={buttonStyleBackConteiner}
+                onPress={this._onPressButton}
+              />
             </View>
-            <Button
-              icon={{name: 'add-shopping-cart'}}
-              title='В корзину'
-              color='white'
-              buttonStyle={buttonStyleBack}
-              containerViewStyle={buttonStyleBackConteiner}
-              onPress={this._onPressButton}
-            />
-          </View>
+          </KeyboardAvoidingView>
         </ScrollView>
       </View>
     )
@@ -495,19 +668,15 @@ const styles = StyleSheet.create({
     padding: 10
   },
   cover: {
-    width: w / 2.4,
-    height: w * 0.63
-  },
-  textHeader: {
-    fontWeight: 'bold',
-    marginBottom: 5
+    width: w / 3,
+    height: w * 0.5
   },
   blockHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   coverBlock: {
-    width: w / 2
+    width: w / 1.8
   },
   fontBold: {
     fontWeight: 'bold'
@@ -518,15 +687,9 @@ const styles = StyleSheet.create({
     fontSize: 26
   },
   block: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#DCDCDC',
-    paddingTop: 5
-  },
-  blockTwo: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#DCDCDC',
-    paddingTop: 5,
-    marginBottom: 10
+    marginBottom: 10,
+    marginTop: 10,
+    flex: 1
   },
   blockTextHeader: {
     paddingLeft: 10,
@@ -534,7 +697,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   blockTextHeaderTwo: {
-    paddingLeft: 10
+    paddingLeft: 10,
+    paddingTop: 10
   },
   fontSizeText: {
     fontSize: 10
@@ -545,6 +709,17 @@ const styles = StyleSheet.create({
   buttonStyleBackConteiner: {
     width: '100%',
     marginLeft: 0
+  },
+  InputStyle: {
+    borderWidth: 1,
+    borderColor: '#DCDCDC',
+    height: 40,
+    width: '100%',
+    paddingLeft: 10
+  },
+  pikerStyle: {
+    borderWidth: 1,
+    borderColor: '#DCDCDC'
   }
 })
 

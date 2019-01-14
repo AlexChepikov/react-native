@@ -8,7 +8,7 @@ const CountBascket = () => {
   return (
     <View style={container}>
       <Icon name='shopping-cart' color='#fff' />
-      <Badge value={3} textStyle={textStyle} containerStyle={backgroundStyle} />
+      <Badge value={0} textStyle={textStyle} containerStyle={backgroundStyle} />
     </View>
   )
 }

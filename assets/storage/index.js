@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
-export default class Core {
+class Core {
   async setItem(key, value) {
     try {
       console.log('Данные добавлены')
@@ -28,8 +28,38 @@ export default class Core {
     console.log('Данные удалены')
     return await AsyncStorage.removeItem(key)
   }
+
+  // _setData = async () => {
+  //   try {
+  //     await AsyncStorage.setItem('bascket', JSON.stringify(this.state))
+  //   } catch (error) {
+  //   // Error saving data
+  //   }
+  // }
+  //
+  // _getData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('bascket')
+  //     if (value !== null) {
+  //       // We have data!!
+  //       console.log(value)
+  //     }
+  //   } catch (error) {
+  //     // Error retrieving data
+  //   }
+  // }
+  //
+  // _removeData = async () => {
+  //   try {
+  //     const value = await AsyncStorage.getItem('bascket')
+  //     if (value !== null) {
+  //       // We have data!!
+  //       console.log(value)
+  //     }
+  //   } catch (error) {
+  //     // Error retrieving data
+  //   }
+  // }
 }
 
-export const get1 = Core.setItem
-export const set2 = Core.getItem
-export const remove3 = Core.removeItem
+export {Core}
