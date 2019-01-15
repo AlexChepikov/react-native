@@ -211,7 +211,7 @@ class Catalog extends React.Component {
           backgroundColor='red'
           leftComponent={{ icon: 'menu', color: '#fff', onPress: () => this.props.router.push.Menu({}, {type: 'left'}) }}
           centerComponent={{ text: 'Подписка онлайн', style: { color: '#fff' }}}
-          rightComponent={<CountBascket />}
+          rightComponent={<CountBascket router={this.props.router} />}
         />
         <TabView
           navigationState={this.state}

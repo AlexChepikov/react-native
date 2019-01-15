@@ -13,7 +13,7 @@ const History = ({router}) => {
         backgroundColor='red'
         leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
         centerComponent={{ text: 'История издательства', style: { color: '#fff' }}}
-        rightComponent={<CountBascket data={3} />}
+        rightComponent={<CountBascket router={router} />}
       />
       <ScrollView>
         <View style={container}>

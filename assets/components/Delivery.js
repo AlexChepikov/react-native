@@ -12,7 +12,7 @@ const Delivery = ({router}) => {
         backgroundColor='red'
         leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
         centerComponent={{ text: 'Оплата и доставка', style: { color: '#fff' }}}
-        rightComponent={<CountBascket />}
+        rightComponent={<CountBascket router={router} />}
       />
       <ScrollView>
         <View style={container}>

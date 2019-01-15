@@ -3,7 +3,6 @@ import {View, ScrollView, StyleSheet, Image, Picker, TextInput, Alert, KeyboardA
 import {Header, Text, Button, ButtonGroup} from 'react-native-elements'
 import {FontAwesome} from '@expo/vector-icons'
 import {CountBascket} from './CountBascket'
-import {setItem, getItem} from '../storage'
 import {w} from './Constants'
 
 const counts = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -355,6 +354,10 @@ const regions = [
 
 class Product extends React.Component {
   state = {
+    id: this.props.data.id,
+    name: this.props.data.name,
+    src: this.props.data.image,
+    type: 'Подписка',
     region: '',
     price: 0,
     address: '',
@@ -372,79 +375,51 @@ class Product extends React.Component {
     box: ''
   }
 
-  // _setData = () => {
-  //   try {
-  //     const value = JSON.parse(AsyncStorage.getItem('bascket'))
-  //     if (value !== null) {
-  //       value.push(this.state)
-  //       AsyncStorage.setItem('bascket', JSON.stringify(value))
-  //     } else {
-  //       AsyncStorage.setItem('bascket', JSON.stringify([this.state]))
-  //     }
-  //   } catch (error) {
-  //     console.error(`AsyncStorage#setItem error: ${error.message}`)
-  //   }
-  // }
-  //
-  // _getData = () => {
-  //   try {
-  //     return AsyncStorage.getItem('bascket')
-  //   } catch (error) {
-  //     console.error(`AsyncStorage#setItem error: ${error.message}`)
-  //   }
-  // }
-  //
-  // _removeData = () => {
-  //   try {
-  //     AsyncStorage.removeItem('bascket')
-  //   } catch (error) {
-  //     console.error(`AsyncStorage#setItem error: ${error.message}`)
-  //   }
-  // }
+  _setStorage = async () => {
+    const value = await AsyncStorage.getItem('bascket')
+    if (value !== null) {
+      const data = JSON.parse(value)
+      data.push(this.state)
+      await AsyncStorage.setItem('bascket', JSON.stringify(data))
+    } else {
+      await AsyncStorage.setItem('bascket', JSON.stringify([this.state]))
+    }
+    this.props.router.reset.Catalog({}, {type: 'right'})
+    Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
+  }
 
   _onPressButton = () => {
-    setItem('bascket', [this.state])
-    console.log(getItem('bascket'))
-    // if (this.state.region === '') {
-    //   Alert.alert('Ошибка!', 'Выберите пожалуйста свой регион')
-    // } else if (this.state.subscribe1 === null && this.state.subscribe2 === null && this.state.subscribe3 === null && this.state.subscribe4 === null && this.state.subscribe5 === null && this.state.subscribe6 === null) {
-    //   Alert.alert('Ошибка!', 'Выберите хотя бы 1 месяц подписки')
-    // } else if (this.state.deliveryType === 0) {
-    //   if (this.state.address === '') {
-    //     Alert.alert('Ошибка!', 'Заполните пожалуйста свой адрес')
-    //   } else if (this.state.fio === '') {
-    //     Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
-    //   } else {
-    //     this._setData()
-    //     this.props.router.pop({type: 'right'})
-    //     Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
-    //     console.log(this._getData())
-    //   }
-    // } else if (this.state.deliveryType === 1) {
-    //   if (this.state.index === '') {
-    //     Alert.alert('Ошибка!', 'Заполните пожалуйста индекс')
-    //   } else if (this.state.fio === '') {
-    //     Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
-    //   } else {
-    //     this._setData()
-    //     this.props.router.pop({type: 'right'})
-    //     Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
-    //     console.log(this._getData())
-    //   }
-    // } else if (this.state.deliveryType === 2) {
-    //   if (this.state.index === '') {
-    //     Alert.alert('Ошибка!', 'Заполните пожалуйста индекс')
-    //   } else if (this.state.box === '') {
-    //     Alert.alert('Ошибка!', 'Заполните пожалуйста абонентский ящик')
-    //   } else if (this.state.fio === '') {
-    //     Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО')
-    //   } else {
-    //     this._setData()
-    //     this.props.router.pop({type: 'right'})
-    //     Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
-    //     console.log(this._getData())
-    //   }
-    // }
+    if (this.state.region === '') {
+      Alert.alert('Ошибка!', 'Выберите пожалуйста свой регион!')
+    } else if (this.state.subscribe1 === null && this.state.subscribe2 === null && this.state.subscribe3 === null && this.state.subscribe4 === null && this.state.subscribe5 === null && this.state.subscribe6 === null) {
+      Alert.alert('Ошибка!', 'Выберите хотя бы 1 месяц подписки!')
+    } else if (this.state.deliveryType === 0) {
+      if (this.state.address === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста свой адрес!')
+      } else if (this.state.fio === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО!')
+      } else {
+        this._setStorage()
+      }
+    } else if (this.state.deliveryType === 1) {
+      if (this.state.index === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста индекс!')
+      } else if (this.state.fio === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО!')
+      } else {
+        this._setStorage()
+      }
+    } else if (this.state.deliveryType === 2) {
+      if (this.state.index === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста индекс!')
+      } else if (this.state.box === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста абонентский ящик!')
+      } else if (this.state.fio === '') {
+        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО!')
+      } else {
+        this._setStorage()
+      }
+    }
   }
 
   render() {
@@ -457,7 +432,7 @@ class Product extends React.Component {
           backgroundColor='red'
           leftComponent={{ icon: 'chevron-left', color: '#fff', onPress: () => this.props.router.pop({type: 'right'}) }}
           centerComponent={{ text: name, style: { color: '#fff' }}}
-          rightComponent={<CountBascket />}
+          rightComponent={<CountBascket router={this.props.router} />}
         />
         <ScrollView>
           <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>

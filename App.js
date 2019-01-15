@@ -8,6 +8,7 @@ import {Delivery} from './assets/components/Delivery'
 import {Representation} from './assets/components/Representation'
 import {Cooperation} from './assets/components/Cooperation'
 import {Product} from './assets/components/Product'
+import {Bascket} from './assets/components/Bascket'
 
 export default class App extends Component {
   componentDidMount = async () => {
@@ -15,7 +16,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <Router routes={{Catalog, Menu, History, Subscription, Delivery, Representation, Cooperation, Product}} initialRoute="Catalog" />
+      <Router routes={{Catalog, Menu, History, Subscription, Delivery, Representation, Cooperation, Product, Bascket}} initialRoute="Catalog" />
     )
   }
 }

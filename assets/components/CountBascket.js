@@ -1,16 +1,30 @@
 import React from 'react'
-import {View, StyleSheet} from 'react-native'
+import {View, StyleSheet, AsyncStorage, TouchableOpacity} from 'react-native'
 import {Icon, Badge} from 'react-native-elements'
 
-const CountBascket = () => {
-  const { container, textStyle, backgroundStyle } = styles
+class CountBascket extends React.Component {
+  state = {
+    count: 0
+  }
 
-  return (
-    <View style={container}>
-      <Icon name='shopping-cart' color='#fff' />
-      <Badge value={0} textStyle={textStyle} containerStyle={backgroundStyle} />
-    </View>
-  )
+  componentDidMount = async () => {
+    const data = await AsyncStorage.getItem('bascket')
+    if (data !== null) {
+      this.setState({count: JSON.parse(data).length})
+    }
+  }
+
+  render() {
+    const { container, textStyle, backgroundStyle } = styles
+    return (
+      <TouchableOpacity onPress={() => this.props.router.push.Bascket({}, {type: 'right'})} >
+        <View style={container} >
+          <Icon name='shopping-cart' color='#fff' />
+          {(this.state.count !== 0) ? (<Badge value={this.state.count} textStyle={textStyle} containerStyle={backgroundStyle} />) : null}
+        </View>
+      </TouchableOpacity>
+    )
+  }
 }
 
 const styles = StyleSheet.create({

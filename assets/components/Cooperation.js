@@ -133,7 +133,7 @@ class Cooperation extends React.Component {
           backgroundColor='red'
           leftComponent={{ icon: 'menu', color: '#fff', onPress: () => this.props.router.push.Menu({}, {type: 'left'}) }}
           centerComponent={{ text: 'Сотрудничество', style: { color: '#fff' }}}
-          rightComponent={<CountBascket />}
+          rightComponent={<CountBascket router={this.props.router} />}
         />
         <TabView
           navigationState={this.state}
