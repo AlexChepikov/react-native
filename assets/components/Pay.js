@@ -16,7 +16,7 @@ class Pay extends React.Component {
   }
 
   _onPressButton = () => {
-    Alert.alert('Ошибка!', 'Оплата еще не готова!')
+    Alert.alert('Ошибка', 'Оплата еще не готова')
   }
 
   render() {

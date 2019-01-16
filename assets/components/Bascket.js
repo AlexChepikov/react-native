@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet, Image, TextInput, AsyncStorage, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback} from 'react-native'
+import {View, ScrollView, StyleSheet, Image, TextInput, AsyncStorage, Alert, KeyboardAvoidingView, TouchableWithoutFeedback} from 'react-native'
 import {FontAwesome} from '@expo/vector-icons'
 import {Header, Text, Button, Icon} from 'react-native-elements'
 import {w} from './Constants'
@@ -26,18 +26,18 @@ class Bascket extends React.Component {
     _onPressButton = () => {
       AsyncStorage.removeItem('bascket').then(() => {
         this.props.router.reset.Catalog({}, {type: 'right'})
-        Alert.alert('Успех!', 'Вы успешно очистили корзину!')
+        Alert.alert('Успех', 'Вы успешно очистили корзину')
       })
     }
 
     _onPressButtonConfirmation = () => {
       if (this.state.email === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста email!')
+        Alert.alert('Ошибка', 'Заполните пожалуйста email')
       } else {
         const pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i)
         const valid = pattern.test(this.state.email)
         if (!valid) {
-          Alert.alert('Ошибка!', 'Заполните правильно email, он необходим для подтверждения платежа!')
+          Alert.alert('Ошибка', 'Заполните правильно email, он необходим для подтверждения платежа')
         } else {
           AsyncStorage.setItem('bascket', JSON.stringify({items: this.state.products, email: this.state.email, comment: this.state.comment, priceAll: this.state.priceAll}))
           this.props.router.push.Pay({}, {type: 'right'})
@@ -50,7 +50,7 @@ class Bascket extends React.Component {
       if (this.state.products.length === 0) {
         AsyncStorage.removeItem('bascket').then(() => {
           this.props.router.reset.Catalog({}, {type: 'right'})
-          Alert.alert('Успех!', 'Вы успешно удалили все товары!')
+          Alert.alert('Успех', 'Вы успешно удалили все товары')
         })
       } else {
         AsyncStorage.setItem('bascket', JSON.stringify({items: this.state.products})).then(() => {
@@ -59,7 +59,7 @@ class Bascket extends React.Component {
             return total + currentValue
           })
           this.setState({priceAll: result})
-          Alert.alert('Успех!', 'Вы успешно удалили товар!')
+          Alert.alert('Успех', 'Вы успешно удалили товар')
         })
       }
     }
@@ -83,7 +83,7 @@ class Bascket extends React.Component {
             }
           />
           <ScrollView>
-            <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 100}>
+            <KeyboardAvoidingView behavior='padding'>
               <View style={container}>
                 {
                   (this.state.products !== '') ? (

@@ -1,12 +1,12 @@
 import React from 'react'
 import {View, ScrollView, StyleSheet, Image, Picker, TextInput, Alert, KeyboardAvoidingView, Platform, AsyncStorage, TouchableWithoutFeedback} from 'react-native'
 import {Header, Text, Button, ButtonGroup, Icon} from 'react-native-elements'
+import IOSPicker from 'react-native-ios-picker'
 import {FontAwesome} from '@expo/vector-icons'
 import {CountBascket} from './CountBascket'
 import {w} from './Constants'
 
 const counts = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-
 const delivery = ['Домой (до почтового ящика)', 'До востребования', 'Абонентский ящик']
 
 const regions = [
@@ -358,7 +358,7 @@ class Product extends React.Component {
     name: this.props.data.name,
     src: this.props.data.image,
     type: 'Подписка',
-    region: '',
+    region: 'Выберите регион',
     price: 0,
     address: '',
     fio: '',
@@ -385,37 +385,37 @@ class Product extends React.Component {
       await AsyncStorage.setItem('bascket', JSON.stringify({items: [this.state]}))
     }
     this.props.router.reset.Catalog({}, {type: 'right'})
-    Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
+    Alert.alert('Успех', 'Вы успешно добавили товар в корзину')
   }
 
   _onPressButton = () => {
-    if (this.state.region === '') {
-      Alert.alert('Ошибка!', 'Выберите пожалуйста свой регион!')
+    if (this.state.region === 'Выберите регион' || this.state.price === 0) {
+      Alert.alert('Ошибка', 'Выберите пожалуйста свой регион')
     } else if (this.state.subscribe1 === null && this.state.subscribe2 === null && this.state.subscribe3 === null && this.state.subscribe4 === null && this.state.subscribe5 === null && this.state.subscribe6 === null) {
-      Alert.alert('Ошибка!', 'Выберите хотя бы 1 месяц подписки!')
+      Alert.alert('Ошибка', 'Выберите хотя бы 1 месяц подписки')
     } else if (this.state.deliveryType === 0) {
       if (this.state.address === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста свой адрес!')
+        Alert.alert('Ошибка', 'Заполните пожалуйста свой адрес')
       } else if (this.state.fio === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО!')
+        Alert.alert('Ошибка', 'Заполните пожалуйста свое ФИО')
       } else {
         this._setStorage()
       }
     } else if (this.state.deliveryType === 1) {
       if (this.state.index === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста индекс!')
+        Alert.alert('Ошибка', 'Заполните пожалуйста индекс')
       } else if (this.state.fio === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО!')
+        Alert.alert('Ошибка', 'Заполните пожалуйста свое ФИО')
       } else {
         this._setStorage()
       }
     } else if (this.state.deliveryType === 2) {
       if (this.state.index === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста индекс!')
+        Alert.alert('Ошибка', 'Заполните пожалуйста индекс')
       } else if (this.state.box === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста абонентский ящик!')
+        Alert.alert('Ошибка!', 'Заполните пожалуйста абонентский ящик')
       } else if (this.state.fio === '') {
-        Alert.alert('Ошибка!', 'Заполните пожалуйста свое ФИО!')
+        Alert.alert('Ошибка', 'Заполните пожалуйста свое ФИО')
       } else {
         this._setStorage()
       }
@@ -424,7 +424,7 @@ class Product extends React.Component {
 
   render() {
     const {name, image} = this.props.data
-    const {wrapper, container, cover, blockHeader, coverBlock, fontBold, fontBoldColor, block, blockTextHeader, blockTextHeaderTwo, fontSizeText, buttonStyleBack, buttonStyleBackConteiner, InputStyle, pikerStyle} = styles
+    const {wrapper, container, cover, blockHeader, coverBlock, fontBold, fontBoldColor, block, blockTextHeader, blockTextHeaderTwo, fontSizeText, buttonStyleBack, buttonStyleBackConteiner, InputStyle, pikerStyle, pikerStyleIOS} = styles
 
     return (
       <View style={wrapper}>
@@ -439,7 +439,7 @@ class Product extends React.Component {
           rightComponent={<CountBascket router={this.props.router} />}
         />
         <ScrollView>
-          <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
+          <KeyboardAvoidingView behavior='padding'>
             <View style={container}>
               <View style={blockHeader}>
                 <Image style={cover} source={{ uri: image}} />
@@ -452,17 +452,39 @@ class Product extends React.Component {
               <View style={block}>
                 <Text style={blockTextHeader}>От Вашего региона зависит цена издания!</Text>
                 <View style={pikerStyle}>
-                  <Picker
-                    selectedValue={this.state.region}
-                    onValueChange={item => {
-                      const region = regions.find(value => value.label === item)
-                      this.setState({ region: item, price: region.value })
-                    }}
-                  >
-                    {regions.map((i, index) => (
-                      <Picker.Item key={index.toString()} label={i.label} value={i.label} />
-                    ))}
-                  </Picker>
+                  {
+                    (Platform.OS === 'ios') ?
+                      (
+                        <IOSPicker
+                          selectedValue={this.state.region}
+                          onValueChange={item => {
+                            const region = regions.find(value => value.label === item)
+                            this.setState({ region: item, price: region.value })
+                          }}
+                          style={pikerStyleIOS}
+                          mode={'modal'}
+                        >
+                          {
+                            regions.map((item, index) =>
+                              <Picker.Item key={index.toString()} label={item.label} value={item.label} />
+                            )
+                          }
+                        </IOSPicker>
+                      ) :
+                      (
+                        <Picker
+                          selectedValue={this.state.region}
+                          onValueChange={item => {
+                            const region = regions.find(value => value.label === item)
+                            this.setState({ region: item, price: region.value })
+                          }}
+                        >
+                          {regions.map((i, index) => (
+                            <Picker.Item key={index.toString()} label={i.label} value={i.label} />
+                          ))}
+                        </Picker>
+                      )
+                  }
                 </View>
                 <Text style={blockTextHeaderTwo}>Выберите месяцы подписки:</Text>
                 <View>
@@ -547,22 +569,48 @@ class Product extends React.Component {
                 </View>
                 <Text style={blockTextHeaderTwo}>Тип доставки:</Text>
                 <View style={pikerStyle}>
-                  <Picker
-                    selectedValue={this.state.delivery}
-                    onValueChange={item => {
-                      if (item === 'Домой (до почтового ящика)') {
-                        this.setState({ delivery: item, deliveryType: 0, box: '', index: ''})
-                      } else if (item === 'До востребования') {
-                        this.setState({ delivery: item, deliveryType: 1, address: '', box: ''})
-                      } else {
-                        this.setState({ delivery: item, deliveryType: 2, address: ''})
-                      }
-                    }}
-                  >
-                    {delivery.map((i, index) => (
-                      <Picker.Item key={index.toString()} label={i} value={i} />
-                    ))}
-                  </Picker>
+                  {
+                    (Platform.OS === 'ios') ?
+                      (
+                        <IOSPicker
+                          selectedValue={this.state.delivery}
+                          onValueChange={item => {
+                            if (item === 'Домой (до почтового ящика)') {
+                              this.setState({ delivery: item, deliveryType: 0, box: '', index: ''})
+                            } else if (item === 'До востребования') {
+                              this.setState({ delivery: item, deliveryType: 1, address: '', box: ''})
+                            } else {
+                              this.setState({ delivery: item, deliveryType: 2, address: ''})
+                            }
+                          }}
+                          style={pikerStyleIOS}
+                          mode={'modal'}
+                        >
+                          {delivery.map((i, index) => (
+                            <Picker.Item key={index.toString()} label={i} value={i} />
+                          ))}
+                        </IOSPicker>
+                      ) :
+                      (
+                        <Picker
+                          selectedValue={this.state.delivery}
+                          onValueChange={item => {
+                            if (item === 'Домой (до почтового ящика)') {
+                              this.setState({ delivery: item, deliveryType: 0, box: '', index: ''})
+                            } else if (item === 'До востребования') {
+                              this.setState({ delivery: item, deliveryType: 1, address: '', box: ''})
+                            } else {
+                              this.setState({ delivery: item, deliveryType: 2, address: ''})
+                            }
+                          }}
+                        >
+                          {delivery.map((i, index) => (
+                            <Picker.Item key={index.toString()} label={i} value={i} />
+                          ))}
+                        </Picker>
+                      )
+                  }
+
                 </View>
 
                 {
@@ -607,15 +655,32 @@ class Product extends React.Component {
 
                 <Text style={blockTextHeaderTwo}>Количество комплектов:</Text>
                 <View style={pikerStyle}>
-                  <Picker
-                    selectedValue={this.state.count}
-                    onValueChange={item => this.setState({ count: item })
-                    }
-                  >
-                    {counts.map((i, index) => (
-                      <Picker.Item key={index.toString()} label={i} value={i} />
-                    ))}
-                  </Picker>
+                  {
+                    (Platform.OS === 'ios') ?
+                      (
+                        <IOSPicker
+                          selectedValue={this.state.count}
+                          onValueChange={item => this.setState({ count: item })}
+                          mode={'modal'}
+                          style={pikerStyleIOS}
+                        >
+                          {counts.map((i, index) => (
+                            <Picker.Item key={index.toString()} label={i} value={i} />
+                          ))}
+                        </IOSPicker>
+                      ) :
+                      (
+                        <Picker
+                          selectedValue={this.state.count}
+                          onValueChange={item => this.setState({ count: item })
+                          }
+                        >
+                          {counts.map((i, index) => (
+                            <Picker.Item key={index.toString()} label={i} value={i} />
+                          ))}
+                        </Picker>
+                      )
+                  }
                 </View>
               </View>
               <Button
@@ -696,6 +761,10 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: '#DCDCDC'
+  },
+  pikerStyleIOS: {
+    height: 50,
+    paddingLeft: 10
   }
 })
 
