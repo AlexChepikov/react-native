@@ -1,7 +1,7 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet, Animated, TouchableOpacity} from 'react-native'
+import {View, ScrollView, StyleSheet, Animated, TouchableOpacity, TouchableWithoutFeedback} from 'react-native'
 import {TabView} from 'react-native-tab-view'
-import {Header} from 'react-native-elements'
+import {Header, Icon} from 'react-native-elements'
 import {ImageCard} from './ImageCard'
 import {CountBascket} from './CountBascket'
 
@@ -101,8 +101,8 @@ const FirstRoute = ({router}) => {
       <ScrollView>
         <View style={container}>
           {
-            dataChildren.map(item => (
-              <TouchableOpacity key={item.id} onPress={() => router.push.Product({data: item}, {type: 'right'})} >
+            dataChildren.map((item, index) => (
+              <TouchableOpacity key={index.toString()} onPress={() => router.push.Product({data: item}, {type: 'right'})} >
                 <ImageCard data={item} key={item.id} />
               </TouchableOpacity>
             ))
@@ -120,8 +120,8 @@ const SecondRoute = ({router}) => {
       <ScrollView>
         <View style={container}>
           {
-            dataAll.map(item => (
-              <TouchableOpacity key={item.id} onPress={() => router.push.Product({data: item}, {type: 'right'})} >
+            dataAll.map((item, index) => (
+              <TouchableOpacity key={index.toString()} onPress={() => router.push.Product({data: item}, {type: 'right'})} >
                 <ImageCard data={item} key={item.id} />
               </TouchableOpacity>
             ))
@@ -139,8 +139,8 @@ const ThirdRoute = ({router}) => {
       <ScrollView>
         <View style={container}>
           {
-            dataCulinar.map(item => (
-              <TouchableOpacity key={item.id} onPress={() => router.push.Product({data: item}, {type: 'right'})} >
+            dataCulinar.map((item, index) => (
+              <TouchableOpacity key={index.toString()} onPress={() => router.push.Product({data: item}, {type: 'right'})} >
                 <ImageCard data={item} key={item.id} />
               </TouchableOpacity>
             ))
@@ -209,7 +209,11 @@ class Catalog extends React.Component {
       <View style={wrapper}>
         <Header
           backgroundColor='red'
-          leftComponent={{ icon: 'menu', color: '#fff', onPress: () => this.props.router.push.Menu({}, {type: 'left'}) }}
+          leftComponent={
+            <TouchableWithoutFeedback onPress={() => this.props.router.push.Menu({}, {type: 'left'})}>
+              <Icon name='menu' color='#fff' />
+            </TouchableWithoutFeedback>
+          }
           centerComponent={{ text: 'Подписка онлайн', style: { color: '#fff' }}}
           rightComponent={<CountBascket router={this.props.router} />}
         />

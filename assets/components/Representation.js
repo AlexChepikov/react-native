@@ -1,7 +1,7 @@
 import React from 'react'
-import {View, Animated, ScrollView, TouchableOpacity, StyleSheet, Linking} from 'react-native'
+import {View, Animated, ScrollView, TouchableOpacity, StyleSheet, Linking, TouchableWithoutFeedback} from 'react-native'
 import {TabView, SceneMap} from 'react-native-tab-view'
-import {Header, Text} from 'react-native-elements'
+import {Header, Text, Icon} from 'react-native-elements'
 import {CountBascket} from './CountBascket'
 
 const FirstRoute = () => {
@@ -129,7 +129,7 @@ class Representation extends React.Component {
           })
           return (
             <TouchableOpacity
-              key={route.title}
+              key={i.toString()}
               style={tabItem}
               onPress={() => this.setState({ index: i })}
             >
@@ -154,7 +154,11 @@ class Representation extends React.Component {
       <View style={container}>
         <Header
           backgroundColor='red'
-          leftComponent={{ icon: 'menu', color: '#fff', onPress: () => this.props.router.push.Menu({}, {type: 'left'}) }}
+          leftComponent={
+            <TouchableWithoutFeedback onPress={() => this.props.router.push.Menu({}, {type: 'left'})}>
+              <Icon name='menu' color='#fff' />
+            </TouchableWithoutFeedback>
+          }
           centerComponent={{ text: 'Наши представительсва', style: { color: '#fff' }}}
           rightComponent={<CountBascket router={this.props.router} />}
         />

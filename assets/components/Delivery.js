@@ -1,6 +1,6 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet, Linking} from 'react-native'
-import {Header, Text} from 'react-native-elements'
+import {View, ScrollView, StyleSheet, Linking, TouchableWithoutFeedback} from 'react-native'
+import {Header, Text, Icon} from 'react-native-elements'
 import {CountBascket} from './CountBascket'
 
 const Delivery = ({router}) => {
@@ -10,7 +10,11 @@ const Delivery = ({router}) => {
     <View style={wrapper}>
       <Header
         backgroundColor='red'
-        leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
+        leftComponent={
+          <TouchableWithoutFeedback onPress={() => router.push.Menu({}, {type: 'left'})}>
+            <Icon name='menu' color='#fff' />
+          </TouchableWithoutFeedback>
+        }
         centerComponent={{ text: 'Оплата и доставка', style: { color: '#fff' }}}
         rightComponent={<CountBascket router={router} />}
       />
@@ -29,10 +33,6 @@ const Delivery = ({router}) => {
           <Text h4 style={textAlign}>Доставка ФГУП «Почта России»</Text>
           <Text>{'\t'}{'\t'}Для жителей РФ доставка товаров осуществляется Почтой России. Заказ после оформления и оплаты отправляется заказной бандеролью на указанный при регистрации почтовый адрес.</Text>
           <Text>{'\t'}{'\t'}Внимание! Пожалуйста, вовремя забирайте на почте доставленные заказы. Бандероль, не востребованная Получателем в течение 1 месяца, возвращается обратно отправителю. Стоимость почтовой доставки по России зависит от веса заказа.</Text>
-          <Text h4 style={textAlign}>Доставка транспортной компанией Boxberry</Text>
-          <Text>{'\t'}{'\t'}Транспортная компания Boxberry имеет свои представительства во всех крупных городах РФ.</Text>
-          <Text>{'\t'}{'\t'}Получение заказов производится или в пунктах выдачи заказов данных компаний, или же возможна курьерская доставка по указанному адресу.</Text>
-          <Text>{'\t'}{'\t'}Основные преимущества доставки транспортными компаниями, по сравнению с Почтой России: отсутствие очередей, высокая скорость доставки и ее низкая стоимость. После отправки заказа в личном кабинете у Вас будет прописан номер накладной, по которой Вы сможете отслеживать местонахождение своего заказа.</Text>
           <Text h4 style={textAlign}>Оплата заказа</Text>
           <Text>{'\t'}{'\t'}Ссылка для оплаты генерируется автоматически на конечном этапе формирования заказа.</Text>
           <Text>{'\t'}{'\t'}При оплате заказа банковской картой (100% предоплата) обработка платежа происходит на сайте системы электронных платежей Яндекс-Касса, которая прошла международную сертификацию. Это значит, что Ваши конфиденциальные данные (реквизиты карты, регистрационные данные и др.) не поступают в интернет-магазин, их обработка полностью защищена, и никто, в том числе наш интернет-магазин, не может получить персональные и банковские данные клиента.</Text>

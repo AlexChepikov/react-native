@@ -1,17 +1,20 @@
 import React from 'react'
-import {View, StyleSheet, Linking} from 'react-native'
-import {ListItem, Header, Text} from 'react-native-elements'
+import {View, StyleSheet, Linking, TouchableWithoutFeedback} from 'react-native'
+import {ListItem, Header, Text, Icon} from 'react-native-elements'
 import {FontAwesome} from '@expo/vector-icons'
 
 const Menu = ({router}) => {
   const {wrapper, textStyle, socialStyleWrapper, socialStyle, textAlign} = styles
-
   return (
     <View style={wrapper}>
       <Header
         backgroundColor='red'
         centerComponent={{ text: 'Меню', style: { color: '#fff' } }}
-        rightComponent={{ icon: 'chevron-right', color: '#fff', onPress: () => router.pop({}, {type: 'right'})}}
+        rightComponent={
+          <TouchableWithoutFeedback onPress={() => router.pop({}, {type: 'right'})}>
+            <Icon name='chevron-right' color='#fff' />
+          </TouchableWithoutFeedback>
+        }
       />
       <View>
         <ListItem

@@ -1,6 +1,6 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet} from 'react-native'
-import {Header, Text} from 'react-native-elements'
+import {View, ScrollView, StyleSheet, TouchableWithoutFeedback} from 'react-native'
+import {Header, Text, Icon} from 'react-native-elements'
 import {CountBascket} from './CountBascket'
 
 const Subscription = ({router}) => {
@@ -10,7 +10,11 @@ const Subscription = ({router}) => {
     <View style={wrapper}>
       <Header
         backgroundColor='red'
-        leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
+        leftComponent={
+          <TouchableWithoutFeedback onPress={() => router.push.Menu({}, {type: 'left'})}>
+            <Icon name='menu' color='#fff' />
+          </TouchableWithoutFeedback>
+        }
         centerComponent={{ text: 'Как оформить подписку', style: { color: '#fff' }}}
         rightComponent={<CountBascket router={router} />}
       />

@@ -1,6 +1,6 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet, Image, Picker, TextInput, Alert, KeyboardAvoidingView, Platform, AsyncStorage} from 'react-native'
-import {Header, Text, Button, ButtonGroup} from 'react-native-elements'
+import {View, ScrollView, StyleSheet, Image, Picker, TextInput, Alert, KeyboardAvoidingView, Platform, AsyncStorage, TouchableWithoutFeedback} from 'react-native'
+import {Header, Text, Button, ButtonGroup, Icon} from 'react-native-elements'
 import {FontAwesome} from '@expo/vector-icons'
 import {CountBascket} from './CountBascket'
 import {w} from './Constants'
@@ -378,11 +378,11 @@ class Product extends React.Component {
   _setStorage = async () => {
     const value = await AsyncStorage.getItem('bascket')
     if (value !== null) {
-      const data = JSON.parse(value)
+      const data = JSON.parse(value).items
       data.push(this.state)
-      await AsyncStorage.setItem('bascket', JSON.stringify(data))
+      await AsyncStorage.setItem('bascket', JSON.stringify({items: data}))
     } else {
-      await AsyncStorage.setItem('bascket', JSON.stringify([this.state]))
+      await AsyncStorage.setItem('bascket', JSON.stringify({items: [this.state]}))
     }
     this.props.router.reset.Catalog({}, {type: 'right'})
     Alert.alert('Успех!', 'Вы успешно добавили товар в корзину!')
@@ -430,7 +430,11 @@ class Product extends React.Component {
       <View style={wrapper}>
         <Header
           backgroundColor='red'
-          leftComponent={{ icon: 'chevron-left', color: '#fff', onPress: () => this.props.router.pop({type: 'right'}) }}
+          leftComponent={
+            <TouchableWithoutFeedback onPress={() => this.props.router.pop({type: 'right'})}>
+              <Icon name='chevron-left' color='#fff' />
+            </TouchableWithoutFeedback>
+          }
           centerComponent={{ text: name, style: { color: '#fff' }}}
           rightComponent={<CountBascket router={this.props.router} />}
         />
@@ -455,8 +459,8 @@ class Product extends React.Component {
                       this.setState({ region: item, price: region.value })
                     }}
                   >
-                    {regions.map((i) => (
-                      <Picker.Item key={i} label={i.label} value={i.label} />
+                    {regions.map((i, index) => (
+                      <Picker.Item key={index.toString()} label={i.label} value={i.label} />
                     ))}
                   </Picker>
                 </View>
@@ -555,8 +559,8 @@ class Product extends React.Component {
                       }
                     }}
                   >
-                    {delivery.map((i) => (
-                      <Picker.Item key={i} label={i} value={i} />
+                    {delivery.map((i, index) => (
+                      <Picker.Item key={index.toString()} label={i} value={i} />
                     ))}
                   </Picker>
                 </View>
@@ -608,8 +612,8 @@ class Product extends React.Component {
                     onValueChange={item => this.setState({ count: item })
                     }
                   >
-                    {counts.map((i) => (
-                      <Picker.Item key={i} label={i} value={i} />
+                    {counts.map((i, index) => (
+                      <Picker.Item key={index.toString()} label={i} value={i} />
                     ))}
                   </Picker>
                 </View>

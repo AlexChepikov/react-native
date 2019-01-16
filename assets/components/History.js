@@ -1,6 +1,6 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet, Image} from 'react-native'
-import {Header, Text} from 'react-native-elements'
+import {View, ScrollView, StyleSheet, Image, TouchableWithoutFeedback} from 'react-native'
+import {Header, Text, Icon} from 'react-native-elements'
 import {CountBascket} from './CountBascket'
 import {w} from './Constants'
 
@@ -11,7 +11,11 @@ const History = ({router}) => {
     <View style={wrapper}>
       <Header
         backgroundColor='red'
-        leftComponent={{ icon: 'menu', color: '#fff', onPress: () => router.push.Menu({}, {type: 'left'}) }}
+        leftComponent={
+          <TouchableWithoutFeedback onPress={() => router.push.Menu({}, {type: 'left'})}>
+            <Icon name='menu' color='#fff' />
+          </TouchableWithoutFeedback>
+        }
         centerComponent={{ text: 'История издательства', style: { color: '#fff' }}}
         rightComponent={<CountBascket router={router} />}
       />
