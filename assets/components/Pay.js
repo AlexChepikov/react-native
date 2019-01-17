@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, ScrollView, StyleSheet, AsyncStorage, Alert, TouchableWithoutFeedback} from 'react-native'
+import {View, ScrollView, StyleSheet, AsyncStorage, Alert, TouchableWithoutFeedback, Linking} from 'react-native'
 import {FontAwesome} from '@expo/vector-icons'
 import {Header, Text, Button, Icon} from 'react-native-elements'
 
@@ -20,7 +20,7 @@ class Pay extends React.Component {
   }
 
   render() {
-    const {wrapper, container, styleText, buttonStyleBack, buttonStyleBackConteiner} = styles
+    const {wrapper, container, styleText, buttonStyleBack, buttonStyleBackConteiner, textStyle} = styles
     return (
       <View style={wrapper}>
         <Header
@@ -44,6 +44,9 @@ class Pay extends React.Component {
               containerViewStyle={buttonStyleBackConteiner}
               onPress={() => this._onPressButton()}
             />
+            <Text>{'\t'}{'\t'}Оплачивая заказ, Вы соглашаетесь на обработку персональных данных:</Text>
+            <Text style={textStyle} onPress={() => Linking.openURL('http://yuniline.ru/files/Положение152фз.docx')}>Положение об использовании персональных данных</Text>
+            <Text style={textStyle} onPress={() => Linking.openURL('https://yuniline.ru/files/договороферта.docx')}>Договор оферты по подписке на переодические печатные издания</Text>
           </View>
         </ScrollView>
       </View>
@@ -71,6 +74,9 @@ const styles = StyleSheet.create({
     width: '100%',
     marginLeft: 0,
     height: 50
+  },
+  textStyle: {
+    color: 'red'
   }
 })
 
