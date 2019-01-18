@@ -16,7 +16,7 @@ class Bascket extends React.Component {
     const data = await AsyncStorage.getItem('bascket')
     if (data !== null) {
       this.setState({products: JSON.parse(data).items})
-      const result = Object.values(this.state.products).map((item) => { return item.price * item.count }).reduce((total, currentValue) => {
+      const result = Object.values(this.state.products).map((item) => { return item.price * item.count * item.countMonth }).reduce((total, currentValue) => {
         return total + currentValue
       })
       this.setState({priceAll: result})
@@ -55,7 +55,7 @@ class Bascket extends React.Component {
       } else {
         AsyncStorage.setItem('bascket', JSON.stringify({items: this.state.products})).then(() => {
           this.setState({products: this.state.products})
-          const result = Object.values(this.state.products).map((item) => { return item.price * item.count }).reduce((total, currentValue) => {
+          const result = Object.values(this.state.products).map((item) => { return item.price * item.count * item.countMonth }).reduce((total, currentValue) => {
             return total + currentValue
           })
           this.setState({priceAll: result})
@@ -88,6 +88,9 @@ class Bascket extends React.Component {
                 {
                   (this.state.products !== '') ? (
                     Object.values(this.state.products).map((item, index) => {
+                      const period = item.subscribeArray.filter((x) => {
+                        return x !== null
+                      })
                       return (<View key={index.toString()} style={blockHeader}>
                         <Image style={cover} source={{ uri: item.src}} />
                         <View style={coverBlock}>
@@ -113,7 +116,10 @@ class Bascket extends React.Component {
                           {
                             (item.box) ? (<Text>Абонентский ящик: {item.box}</Text>) : null
                           }
-                          <Text style={styleTextPrice}>Цена: {item.price * item.count} <FontAwesome name="rub" size={16} /></Text>
+                          <Text>Период подписки: {period.join()}
+                          </Text>
+                          <Text style={styleTextPrice}>Цена (в месяц): {item.price} <FontAwesome name="rub" size={16} /></Text>
+                          <Text style={styleTextPrice}>Итоговая цена: {item.price * item.count * item.countMonth} <FontAwesome name="rub" size={16} /></Text>
                         </View>
                       </View>)
                     })

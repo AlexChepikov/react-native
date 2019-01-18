@@ -1,11 +1,12 @@
 import React from 'react'
 import {View, ScrollView, StyleSheet, Image, Picker, TextInput, Alert, KeyboardAvoidingView, Platform, AsyncStorage, TouchableWithoutFeedback} from 'react-native'
-import {Header, Text, Button, ButtonGroup, Icon} from 'react-native-elements'
+import {Header, Text, Button, Icon, CheckBox} from 'react-native-elements'
 import IOSPicker from 'react-native-ios-picker'
 import {FontAwesome} from '@expo/vector-icons'
 import {CountBascket} from './CountBascket'
 import {w} from './Constants'
 
+const month = ['2019 Январь', '2019 Февраль', '2019 Март', '2019 Апрель', '2019 Май', '2019 Июнь']
 const counts = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 const delivery = ['Домой (до почтового ящика)', 'До востребования', 'Абонентский ящик']
 
@@ -365,12 +366,9 @@ class Product extends React.Component {
     count: '1',
     delivery: 'Домой (до почтового ящика)',
     deliveryType: 0,
-    subscribe1: null,
-    subscribe2: null,
-    subscribe3: null,
-    subscribe4: null,
-    subscribe5: null,
-    subscribe6: null,
+    subscribeArray: [null, null, null, null, null, null, null, null, null, null, null, null],
+    subscribeArrayChecked: [false, false, false, false, false, false, false, false, false, false, false, false],
+    countMonth: 0,
     index: '',
     box: ''
   }
@@ -391,7 +389,7 @@ class Product extends React.Component {
   _onPressButton = () => {
     if (this.state.region === 'Выберите регион' || this.state.price === 0) {
       Alert.alert('Ошибка', 'Выберите пожалуйста свой регион')
-    } else if (this.state.subscribe1 === null && this.state.subscribe2 === null && this.state.subscribe3 === null && this.state.subscribe4 === null && this.state.subscribe5 === null && this.state.subscribe6 === null) {
+    } else if (this.state.countMonth === 0) {
       Alert.alert('Ошибка', 'Выберите хотя бы 1 месяц подписки')
     } else if (this.state.deliveryType === 0) {
       if (this.state.address === '') {
@@ -445,7 +443,8 @@ class Product extends React.Component {
                 <Image style={cover} source={{ uri: image}} />
                 <View style={coverBlock}>
                   <Text style={fontBold}>(В цену подписки включена стоимость доставки. Минимальный период подписки – 1 месяц.)</Text>
-                  <Text style={fontBoldColor}>Цена: {this.state.price * this.state.count} <FontAwesome name="rub" size={16} /></Text>
+                  <Text style={fontBoldColor}>Цена (в месяц): {this.state.price} <FontAwesome name="rub" size={16} /></Text>
+                  <Text style={fontBoldColor}>Итоговая цена: {this.state.price * this.state.count * this.state.countMonth} <FontAwesome name="rub" size={16} /></Text>
                 </View>
               </View>
 
@@ -488,84 +487,31 @@ class Product extends React.Component {
                 </View>
                 <Text style={blockTextHeaderTwo}>Выберите месяцы подписки:</Text>
                 <View>
-                  <ButtonGroup
-                    buttons={['2019 Январь']}
-                    selectedIndex={this.state.subscribe1}
-                    onPress={subscribe1 => {
-                      if (this.state.subscribe1 == null) {
-                        this.setState({subscribe1})
-                      } else {
-                        this.setState({subscribe1: null})
-                      }
-                    }}
-                    containerStyle={buttonStyleBackConteiner}
-                    selectedTextStyle={{color: 'red'}}
-                  />
-                  <ButtonGroup
-                    buttons={['2019 Февраль']}
-                    selectedIndex={this.state.subscribe2}
-                    onPress={subscribe2 => {
-                      if (this.state.subscribe2 == null) {
-                        this.setState({subscribe2})
-                      } else {
-                        this.setState({subscribe2: null})
-                      }
-                    }}
-                    containerStyle={buttonStyleBackConteiner}
-                    selectedTextStyle={{color: 'red'}}
-                  />
-                  <ButtonGroup
-                    buttons={['2019 Март']}
-                    selectedIndex={this.state.subscribe3}
-                    onPress={subscribe3 => {
-                      if (this.state.subscribe3 == null) {
-                        this.setState({subscribe3})
-                      } else {
-                        this.setState({subscribe3: null})
-                      }
-                    }}
-                    containerStyle={buttonStyleBackConteiner}
-                    selectedTextStyle={{color: 'red'}}
-                  />
-                  <ButtonGroup
-                    buttons={['2019 Апрель']}
-                    selectedIndex={this.state.subscribe4}
-                    onPress={subscribe4 => {
-                      if (this.state.subscribe4 == null) {
-                        this.setState({subscribe4})
-                      } else {
-                        this.setState({subscribe4: null})
-                      }
-                    }}
-                    containerStyle={buttonStyleBackConteiner}
-                    selectedTextStyle={{color: 'red'}}
-                  />
-                  <ButtonGroup
-                    buttons={['2019 Май']}
-                    selectedIndex={this.state.subscribe5}
-                    onPress={subscribe5 => {
-                      if (this.state.subscribe5 == null) {
-                        this.setState({subscribe5})
-                      } else {
-                        this.setState({subscribe5: null})
-                      }
-                    }}
-                    containerStyle={buttonStyleBackConteiner}
-                    selectedTextStyle={{color: 'red'}}
-                  />
-                  <ButtonGroup
-                    buttons={['2019 Июнь']}
-                    selectedIndex={this.state.subscribe6}
-                    onPress={subscribe6 => {
-                      if (this.state.subscribe6 == null) {
-                        this.setState({subscribe6})
-                      } else {
-                        this.setState({subscribe6: null})
-                      }
-                    }}
-                    containerStyle={buttonStyleBackConteiner}
-                    selectedTextStyle={{color: 'red'}}
-                  />
+                  {
+                    month.map((i, index) => (
+                      <CheckBox
+                        key={index.toString()}
+                        center
+                        title={i}
+                        iconType='material'
+                        checkedIcon='check-box'
+                        uncheckedIcon='check-box-outline-blank'
+                        checkedColor='red'
+                        checked={this.state.subscribeArrayChecked[index]}
+                        onPress={() => {
+                          if (this.state.subscribeArray[index] === null) {
+                            this.state.subscribeArrayChecked[index] = true
+                            this.state.subscribeArray[index] = month[index]
+                            this.setState({subscribeArray: this.state.subscribeArray, subscribeArrayChecked: this.state.subscribeArrayChecked, countMonth: this.state.countMonth + 1})
+                          } else {
+                            this.state.subscribeArrayChecked[index] = false
+                            this.state.subscribeArray[index] = null
+                            this.setState({subscribeArray: this.state.subscribeArray, subscribeArrayChecked: this.state.subscribeArrayChecked, countMonth: this.state.countMonth - 1})
+                          }
+                        }}
+                      />
+                    ))
+                  }
                 </View>
                 <Text style={blockTextHeaderTwo}>Тип доставки:</Text>
                 <View style={pikerStyle}>
@@ -723,7 +669,7 @@ const styles = StyleSheet.create({
   fontBoldColor: {
     fontWeight: 'bold',
     color: 'red',
-    fontSize: 26
+    fontSize: 18
   },
   block: {
     marginBottom: 10,

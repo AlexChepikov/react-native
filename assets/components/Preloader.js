@@ -9,7 +9,9 @@ class Preloader extends React.Component {
 
   componentDidMount = async () => {
     const hour = new Date().getHours()
-    if (hour > 0 && hour <= 11) {
+    if (hour > 0 && hour <= 8) {
+      this.setState({message: 'Доброй ночи'})
+    } else if (hour > 8 && hour <= 11) {
       this.setState({message: 'Доброе утро'})
     } else if (hour > 11 && hour <= 20) {
       this.setState({message: 'Добрый день'})
