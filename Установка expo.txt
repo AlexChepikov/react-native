@@ -23,7 +23,7 @@ atom-ternjs
 color-picker 
 es6-javascript 
 esformatter 
-file-icons 
+file-icons-последний !
 highlight-selected 
 react-native-snippets 
 react-native-snippets-horse 
